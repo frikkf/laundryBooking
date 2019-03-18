@@ -1,0 +1,14 @@
+{
+  "name": "GetBookings",
+  "version": "1.0.0",
+  "description": "",
+  "main": "getBookings.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Frikk Fossan",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/datastore": "^3.1.2"
+  }
+}
