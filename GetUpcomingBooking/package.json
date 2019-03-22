@@ -1,13 +1,12 @@
 {
-  "name": "DeleteBooking",
+  "name": "GetUpcomingBooking",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "getUpcomingBooking.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Frikk Fossan",
   "license": "ISC",
   "dependencies": {
     "@google-cloud/datastore": "^3.1.2",

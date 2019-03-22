@@ -9,6 +9,7 @@
   "author": "Frikk Fossan",
   "license": "ISC",
   "dependencies": {
-    "@google-cloud/datastore": "^3.1.2"
+    "@google-cloud/datastore": "^3.1.2",
+    "cors": "^2.8.5"
   }
 }

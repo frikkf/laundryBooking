@@ -1,0 +1,9 @@
+indexes:
+
+- kind: Booking
+  ancestor: no
+  properties:
+  - name: Email
+    direction: asc
+  - name: StartDate
+    direction: desc
