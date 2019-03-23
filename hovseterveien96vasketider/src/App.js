@@ -1,44 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { Grid } from "@material-ui/core";
-import SignIn from "./components/sign-in/SignIn";
+import { withStyles } from "@material-ui/core";
+
 import Main from "./components/main/Main";
 
-const App = () => {
-  const [signedIn, setSignedIn] = useState(false);
-  const [user, setUser] = useState({email: null, name: null});
+const emptyUser = {email: null, name: null};
 
-  const onSignInSubmitted = () => setSignedIn(true);
+const App = (props) => {
+  const {classes, auth} = props;
+  console.log("USER", auth.user);
+  const {email, name} = auth.user
+  const [user, setUser] = useState({email: email, name: name});
 
-  const onGoogleAuthSuccess = (response) => {
-    console.log(response);
-    setUser({email: response.profileObj.email, name: response.profileObj.name});
-    setSignedIn(true);
-    saveLoginData(response);
+  const logout = () => {
+    auth.logout();
+    setUser(emptyUser);
   }
-
-  const saveLoginData = (loginData) => {
-    sessionStorage.setItem('LOGIN_DATA',JSON.stringify(loginData));
-  }
-
-  const getLoginDataFromCache = () => {
-    const data = sessionStorage.getItem('LOGIN_DATA');
-    if(data) return JSON.parse(data);
-    return undefined;
-  }
-
-  useEffect( () => {
-    const loginData = getLoginDataFromCache();
-    if(loginData) {
-      setUser({email: loginData.profileObj.email, name: loginData.profileObj.name});
-      setSignedIn(true);
-    }
-  }, []);
 
   return (
-    <Grid container>
-      {signedIn ? <Main user={user} /> : <SignIn submit={onSignInSubmitted} onGoogleAuthSuccess={onGoogleAuthSuccess} />}
-    </Grid>
+    <Main user={user} logout={logout} {...props} />
   );
 };
 
-export default App;
+const styles = theme => ({
+})
+
+export default withStyles(styles)(App);

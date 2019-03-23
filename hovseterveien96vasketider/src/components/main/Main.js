@@ -6,18 +6,20 @@ import TopNav from '../top-nav/TopNav';
 import { getBookings, addBooking, deleteBooking, getUpcomingBooking } from '../../services/booking.service';
 import Bookings from '../bookings/bookings';
 import UpcomingBooking from '../bookings/UpcomingBooking';
+import AlertDialog from '../alertDialog/AlertDialog';
 
 const styles = {
 
 };
 
 const Main = (props) => {
-  const { classes, user } = props;
+  const { user, logout } = props;
 
   const [bookings, setBookings] = useState([]);
   const [isLoadingBookings, setIsLoadingBookings] = useState(false);
   const [isLoadingUpcomingBooking, setIsLoadingUpcomingBooking] = useState(false);
   const [upcomingBooking, setUpcomingBooking] = useState({booking: null, isUpcoming: false});
+  const [disableUserInteractions, setDisableUserInteractions] = useState(false);
   useEffect(() => {
     setIsLoadingBookings(true);
     setIsLoadingUpcomingBooking(true);
@@ -32,10 +34,12 @@ const Main = (props) => {
         console.log(result);
         setUpcomingBooking(result.data);
         setIsLoadingUpcomingBooking(false);
+        setDisableUserInteractions(false);
       })
       .catch(e => {
         setIsLoadingUpcomingBooking(false);
         console.error(e);
+        setDisableUserInteractions(false);
       })
   }
 
@@ -46,9 +50,11 @@ const Main = (props) => {
         const parsedBookings = parseBookings(result.data.bookings);
         setBookings(parsedBookings);
         setIsLoadingBookings(false);
+        setDisableUserInteractions(false);
       })
       .catch(error => {
         setIsLoadingBookings(false);
+        setDisableUserInteractions(false);
         console.error(error);
       });
   }
@@ -63,6 +69,7 @@ const Main = (props) => {
 
   const handleAddBooking = async (startDate, endDate) => {
     try {
+      setDisableUserInteractions(true);
       const response = await addBooking(
         user.name,
         startDate.toISOString(),
@@ -86,9 +93,11 @@ const Main = (props) => {
     const {id} = booking;
     const email = user.email;
     try {
+      setDisableUserInteractions(true);
       await deleteBooking(id, email);
       const newBookings = bookings.filter(b => b.id !== id);
       setBookings(newBookings);
+      setDisableUserInteractions(false);
     }catch(e){
       console.error(e);
     }
@@ -98,12 +107,15 @@ const Main = (props) => {
     const {id} = booking;
     const email = user.email;
     try {
+      setDisableUserInteractions(true);
       await deleteBooking(id, email);
       const newBookings = bookings.filter(b => b.id !== id);
       setBookings(newBookings);
       setUpcomingBooking({booking: null, isUpcoming: false});
     }catch(e){
       console.error(e);
+    }finally {
+      setDisableUserInteractions(false);
     }
   }
 
@@ -120,16 +132,18 @@ const Main = (props) => {
     <div>Loading upcoming booking</div> : 
     <UpcomingBooking cancelBooking={() => cancelUpcomingBooking(upcomingBooking.booking)} booking={upcomingBooking.booking}/>
   
+  
 
   return (
-    <Grid container >
-      <TopNav />
-      <Grid container >
+    <Grid container direction="column">
+      <TopNav logout={logout}/>
+      <Grid container direction="column">
         { upcomingBooking.isUpcoming 
           ?  renderUpcomingBooking()
           :  renderBookings()
         }
       </Grid>
+      <AlertDialog open={disableUserInteractions} />
     </Grid>
   );
 }

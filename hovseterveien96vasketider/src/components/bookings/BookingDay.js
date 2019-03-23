@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import BookingSlot from "./BookingSlot";
 import { Grid } from "@material-ui/core";
-import { red } from "@material-ui/core/colors";
+import classNames from 'classnames';
 
 const styles = theme => ({
   container: {
@@ -18,15 +18,22 @@ const styles = theme => ({
   },
   unavailable: {
     backgroundColor: 'red'
+  },
+  weekStart: {
+    borderTop: '.2rem solid lightgrey'
+  },
+  expanded: {
+    margin: 0
   }
 });
 
 const BookingDay = props => {
   const { classes, date, slots, handleAddBooking, handleDeleteBooking } = props;
   const isAvailable = slots.some(s => s === null);
-  
+  const isMonday = date.toDateString().split(' ')[0] === 'Mon';
+
   return (
-    <ExpansionPanel disabled={isAvailable ? false : true} className={isAvailable ? '' : classes.unavailable}>
+    <ExpansionPanel classes={{expanded: classes.expanded}} disabled={isAvailable ? false : true} className={classNames(isAvailable ? '' : classes.unavailable, isMonday ? classes.weekStart : '')}>
       <ExpansionPanelSummary expandIcon={isAvailable? <ExpandMoreIcon /> : null}>
         <Typography className={classes.heading}>
           {date.toDateString()} {isAvailable ? '' : 'INGEN LEDIG TID'}

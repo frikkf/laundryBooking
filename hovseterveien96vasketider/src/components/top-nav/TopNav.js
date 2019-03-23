@@ -10,7 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 const styles = {
   root: {
-    flexGrow: 1,
+    flexGrow: 0,
   },
   grow: {
     flexGrow: 1,
@@ -22,7 +22,7 @@ const styles = {
 };
 
 const TopNav = (props) => {
-  const { classes } = props;
+  const { classes, logout } = props;
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -31,9 +31,9 @@ const TopNav = (props) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" className={classes.grow}>
-            News
+            Booke vask
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={() => logout()}>Logout</Button>
         </Toolbar>
       </AppBar>
     </div>

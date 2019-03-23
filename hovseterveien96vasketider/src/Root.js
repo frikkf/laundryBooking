@@ -2,7 +2,7 @@ import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import blue from "@material-ui/core/colors/blue";
-import App from "./App";
+import AppRoutes from "./AppRoutes";
 
 const theme = createMuiTheme({
   typography: { useNextVariants: true },
@@ -15,7 +15,7 @@ const Root = () => (
   <>
     <CssBaseline />
     <MuiThemeProvider theme={theme}>
-      <App />
+      <AppRoutes />
     </MuiThemeProvider>
   </>
 );
