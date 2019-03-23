@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { withStyles } from "@material-ui/core";
 
 import Main from "./components/main/Main";
 
-const emptyUser = {email: null, name: null};
+const emptyUser = {id: null, name: null};
 
 const App = (props) => {
-  const {classes, auth} = props;
+  const {auth} = props;
   console.log("USER", auth.user);
-  const {email, name} = auth.user
-  const [user, setUser] = useState({email: email, name: name});
+  const {sub, name} = auth.user
+  const [user, setUser] = useState({id: sub, name: name});
 
   const logout = () => {
     auth.logout();
@@ -21,7 +21,7 @@ const App = (props) => {
   );
 };
 
-const styles = theme => ({
+const styles = () => ({
 })
 
 export default withStyles(styles)(App);

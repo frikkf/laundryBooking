@@ -11,18 +11,18 @@ const cors = require('cors')();
  * @param {!express:Response} res HTTP response context.
  */
 
-const getUsersBookings = async (datastore, email) => {
+const getUsersBookings = async (datastore, createdBy) => {
   const query = datastore
     .createQuery('Booking')
-    .filter('Email', email)
+    .filter('CreatedBy', createdBy)
     .order('StartDate', { descending: true });
   const [bookings] = await datastore.runQuery(query);
   console.log("[Bookings]:",bookings);
   return bookings;
 }
 
-const validateBookings = async (datastore, email) => {
-  const existingBookings = await getUsersBookings(datastore, email);
+const validateBookings = async (datastore, createdBy) => {
+  const existingBookings = await getUsersBookings(datastore, createdBy);
   console.log("[existingBookings]:",existingBookings);
   if(existingBookings.length > 0) {
     const startDate = new Date(existingBookings[0].StartDate);
@@ -34,14 +34,14 @@ const validateBookings = async (datastore, email) => {
 exports.addBooking = (req, res) => {
   cors(req, res, async () => {
     try {
-      const { name, startDate, endDate, comment, email } = req.body;
+      const { name, startDate, endDate, comment, createdBy } = req.body;
       const projectId = 'hovseterveien96vasketider';
       const datastore = new Datastore({
         projectId: projectId,
       });
       
       try{
-        await validateBookings(datastore, email);
+        await validateBookings(datastore, createdBy);
       }catch(e) {
         return res.status(403).send("Not allowed to create booking");
       }
@@ -69,8 +69,8 @@ exports.addBooking = (req, res) => {
             value: name,
           },
           {
-            name: 'Email',
-            value: email,
+            name: 'CreatedBy',
+            value: createdBy,
           },
           {
             name: 'Comment',

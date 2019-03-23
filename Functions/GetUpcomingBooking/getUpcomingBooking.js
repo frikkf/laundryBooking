@@ -20,14 +20,14 @@ const successResponse = (booking) => ({booking: booking, isUpcoming: true});
 exports.getUpcomingBooking = (req, res) => {
   cors(req, res, async () => {
     try {
-      const email = req.query.email;
-      console.log("Getting upcoming booking for ", email);
+      const createdBy = req.query.createdBy;
+      console.log("Getting upcoming booking for ", createdBy);
       const projectId = 'hovseterveien96vasketider';
       const datastore = new Datastore({
         projectId: projectId,
       });
 
-      const query = datastore.createQuery('Booking').filter('Email', email).order('StartDate', { descending: true});
+      const query = datastore.createQuery('Booking').filter('CreatedBy', createdBy).order('StartDate', { descending: true});
       const [bookings] = await datastore.runQuery(query);
       if(bookings.length > 0) {
         const booking = bookings[0];

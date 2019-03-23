@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, withStyles } from "@material-ui/core";
 import SignIn from "./components/sign-in/SignIn";
-import { Route, Router,Redirect } from 'react-router-dom';
+import { Route, Router } from 'react-router-dom';
 import Auth from "./Auth/Auth";
 import Callback from "./Callback/Callback";
 import history from './history';
@@ -24,13 +24,8 @@ const AppRoutes = (props) => {
 
           <Route path="/" exact render={(props) => {
             return auth.isAuthenticated() ? 
-                <Redirect to={{path: '/vaskeliste'}} /> 
+                <App auth={auth} {...props} />
               : <SignIn auth={auth} {...props}/>
-          }} />
-          <Route path="/vaskeliste" render={(props) => {
-            return !auth.isAuthenticated() ? 
-                <Redirect to={{path: '/'}} /> 
-              : <App auth={auth} {...props} />
           }} />
           <Route path="/callback" render={(props) => {
             handleAuthentication(props);

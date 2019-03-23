@@ -29,7 +29,7 @@ const Main = (props) => {
 
   const getUpcomingBookingEffect = () => {
       
-      getUpcomingBooking(user.email)
+      getUpcomingBooking(user.id)
       .then(result => {
         console.log(result);
         setUpcomingBooking(result.data);
@@ -75,7 +75,7 @@ const Main = (props) => {
         startDate.toISOString(),
         endDate.toISOString(),
         '',
-        user.email
+        user.id
       );
       console.log(response);
       const booking = parseBooking(response.data.booking);
@@ -91,10 +91,10 @@ const Main = (props) => {
 
   const handleDeleteBooking = async (booking) => {
     const {id} = booking;
-    const email = user.email;
+    const userId = user.id;
     try {
       setDisableUserInteractions(true);
-      await deleteBooking(id, email);
+      await deleteBooking(id, userId);
       const newBookings = bookings.filter(b => b.id !== id);
       setBookings(newBookings);
       setDisableUserInteractions(false);
@@ -105,10 +105,10 @@ const Main = (props) => {
 
   const cancelUpcomingBooking = async (booking) => {
     const {id} = booking;
-    const email = user.email;
+    const userId = user.id;
     try {
       setDisableUserInteractions(true);
-      await deleteBooking(id, email);
+      await deleteBooking(id, userId);
       const newBookings = bookings.filter(b => b.id !== id);
       setBookings(newBookings);
       setUpcomingBooking({booking: null, isUpcoming: false});

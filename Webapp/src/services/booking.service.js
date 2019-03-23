@@ -7,22 +7,22 @@ export const getBookings = async () => {
   return await axios(`${ROOT_URL}/getBookings`);
 };
 
-export const addBooking = async (name, startDate, endDate, comment, email) => {
+export const addBooking = async (name, startDate, endDate, comment, createdBy) => {
   const body = {
     name: name,
     startDate: startDate,
     endDate: endDate,
     comment: comment,
-    email: email
+    createdBy: createdBy
   };
   const response = await axios.post(`${ROOT_URL}/addBooking`, body);
   return response;
 };
 
-export const deleteBooking = async (id, email) => {
+export const deleteBooking = async (id, createdBy) => {
   return await axios.delete(
-    `${ROOT_URL}/deleteBooking?id=${id}&email=${email}`
+    `${ROOT_URL}/deleteBooking?id=${id}&createdBy=${createdBy}`
   );
 };
 
-export const getUpcomingBooking = async (email) => await axios.get(`${ROOT_URL}/getUpcomingBooking?email=${email}`);
+export const getUpcomingBooking = async (createdBy) => await axios.get(`${ROOT_URL}/getUpcomingBooking?createdBy=${createdBy}`);

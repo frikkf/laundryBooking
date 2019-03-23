@@ -3,7 +3,7 @@ indexes:
 - kind: Booking
   ancestor: no
   properties:
-  - name: Email
+  - name: CreatedBy
     direction: asc
   - name: StartDate
     direction: desc

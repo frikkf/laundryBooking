@@ -14,8 +14,8 @@ exports.deleteBooking = (req, res) => {
 
     try {
       const bookingId = req.query.id;
-      const email = req.query.email;
-      if(!bookingId || !email) return res.status(400).send('Missing parameters');
+      const createdBy = req.query.createdBy;
+      if(!bookingId || !createdBy) return res.status(400).send('Missing parameters');
       console.log('Trying to delete booking with id: ', bookingId);
       const projectId = 'hovseterveien96vasketider';
       const datastore = new Datastore({
@@ -28,8 +28,8 @@ exports.deleteBooking = (req, res) => {
       if(foundBooking === null || foundBooking.length === 0) return res.status(400).send('Not allowed to delete this booking');
       console.log(foundBooking);
       const booking = foundBooking[0][0];
-
-      if(booking.Email !== email) return res.status(403).send('Forbidden to delete anothers booking');
+      if(!booking) throw new Error("Booking not found");
+      if(booking.CreatedBy !== createdBy) return res.status(403).send('Forbidden to delete anothers booking');
 
       await datastore.delete(bookingKey);
 

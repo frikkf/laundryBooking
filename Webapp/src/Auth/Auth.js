@@ -13,7 +13,7 @@ export default class Auth {
     clientID: AUTH_CONFIG.clientId,
     redirectUri: AUTH_CONFIG.callbackUrl,
     responseType: 'token id_token',
-    scope: 'openid email profile'
+    scope: 'openid profile'
   });
 
   constructor() {
@@ -35,7 +35,7 @@ export default class Auth {
 
     this.accessToken = accessToken;
     this.idToken = idToken;
-    this.expiresAt = expiresAt;
+    this.expiresAt = parseInt(expiresAt);
     this.user = user;
   }
 
@@ -81,7 +81,7 @@ export default class Auth {
       localStorage.setItem('idToken', authResult.idToken);
       localStorage.setItem('expiresAt', expiresAt);
       // navigate to the home route
-      history.replace('/vaskeliste');
+      history.replace('/');
     });  
 
   }
