@@ -4,4 +4,4 @@
 - Bedre countdown design
 - desktop versjon(?)
 - Opprette egen bruke(?)
-- Logg inn med facebook?
+- Offline mode. Lagre upcoming booking i localStorage, lagre bookings i localstorage(risky)
